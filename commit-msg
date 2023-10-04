@@ -1,0 +1,17 @@
+#!/bin/bash
+#
+# Automatically add "Signed-off-by" line to commit messages
+#
+# This script appends a "Signed-off-by" line to every commit message
+# if it doesn't already exist.
+
+# Check if the commit message contains a "Signed-off-by" line
+if ! grep -q "^Signed-off-by:" "$1"; then
+    # Get the user's name and email from Git config
+    name=$(git config user.name)
+    email=$(git config user.email)
+    if [ -n "$name" ] && [ -n "$email" ]; then
+        # Append the "Signed-off-by" line
+        echo "Signed-off-by: $name <$email>" >> "$1"
+    fi
+fi
